@@ -191,7 +191,10 @@ function normalizeDomain(raw: string): string | null {
   let d = raw.trim().toLowerCase()
   if (d.length === 0 || d.startsWith('#') || d.startsWith('//')) return null
   // strip accidental scheme / path / trailing dots
-  d = d.replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/\.+$/, '')
+  d = d
+    .replace(/^https?:\/\//, '')
+    .replace(/\/.*$/, '')
+    .replace(/\.+$/, '')
   if (d.includes('@')) d = d.slice(d.lastIndexOf('@') + 1)
   if (d.includes(' ')) return null
   if (d.length === 0) return null
@@ -219,9 +222,14 @@ function parseBody(body: string, format: Source['format']): string[] {
   return body.split(/\r?\n/)
 }
 
-async function fetchSource(source: Source): Promise<{ ok: number; dropped: number; domains: string[] }> {
+async function fetchSource(
+  source: Source,
+): Promise<{ ok: number; dropped: number; domains: string[] }> {
   const res = await fetch(source.url, {
-    headers: { 'user-agent': 'detect-disposable-email-sync/1.0 (+https://github.com/kazmiali/detect-disposable-email)' },
+    headers: {
+      'user-agent':
+        'detect-disposable-email-sync/1.0 (+https://github.com/kazmiali/detect-disposable-email)',
+    },
   })
   if (!res.ok) {
     throw new Error(`HTTP ${String(res.status)} for ${source.url}`)
@@ -280,7 +288,9 @@ async function main(): Promise<void> {
         }
       }
       perSource.push({ name: source.name, fetched: ok, newToUs, dropped })
-      console.log(`ok (${ok.toLocaleString()} usable, +${newToUs.toLocaleString()} new, ${dropped} dropped)`)
+      console.log(
+        `ok (${ok.toLocaleString()} usable, +${newToUs.toLocaleString()} new, ${dropped} dropped)`,
+      )
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       console.log(`FAILED: ${msg}`)
@@ -294,10 +304,8 @@ async function main(): Promise<void> {
       .map((d) => normalizeDomain(d))
       .filter((d): d is string => d !== null),
   )
-  let wildcardMerged = uniqueSorted(
-    existingWildcard
-      .map((d) => normalizeDomain(d))
-      .filter((d): d is string => d !== null),
+  const wildcardMerged = uniqueSorted(
+    existingWildcard.map((d) => normalizeDomain(d)).filter((d): d is string => d !== null),
   )
 
   const beforeWildcardStrip = indexMerged.length

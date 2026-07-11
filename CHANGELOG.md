@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+### Patch Changes
+
+- Fix ESLint `prefer-const` in `scripts/sync-sources.ts` (`wildcardMerged`) so CI lint passes on Node 20/22/24.
+
 ## 1.1.0
 
 ### Minor Changes

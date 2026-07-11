@@ -1,6 +1,6 @@
 {
   "name": "detect-disposable-email",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Fast, typed disposable/temporary email domain detection — 160k+ domains, zero runtime dependencies",
   "type": "module",
   "main": "./dist/index.cjs",
