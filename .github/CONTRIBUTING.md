@@ -54,7 +54,7 @@ cd detect-disposable-email
 yarn install
 ```
 
-Requirements: Node.js ≥ 18, Yarn 4 (Corepack will provide it).
+Requirements: Node.js ≥ 20, Yarn 4 (Corepack will provide it).
 
 ## Useful scripts
 

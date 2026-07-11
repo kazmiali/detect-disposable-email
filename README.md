@@ -41,7 +41,7 @@ yarn add detect-disposable-email
 pnpm add detect-disposable-email
 ```
 
-Requirements: Node.js ≥ 18.
+Requirements: Node.js ≥ 20.
 
 ---
 
