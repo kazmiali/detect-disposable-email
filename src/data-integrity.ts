@@ -100,12 +100,14 @@ export function validateData(index: unknown, wildcard: unknown): DataIntegrityRe
   pushOrderIssues(idx, 'index', errors)
   pushOrderIssues(wild, 'wildcard', errors)
 
-  // notInWildcard: an `index` entry that has a subdomain AND ends with a
-  // wildcard suffix is redundant — it should only live in wildcard.json.
-  // This mirrors the upstream add.js behavior.
+  // notInWildcard: an `index` entry that is a *proper subdomain* of a
+  // wildcard base is redundant (e.g. `sub.10mail.org` when `10mail.org` is a
+  // wildcard). The base itself may appear in both lists — exact covers bare
+  // lookups (runtime also checks the wildcard set for the base), and the
+  // wildcard covers subdomains.
   idx.forEach((d, i) => {
     if (!SUBDOMAINED_RE.test(d)) return
-    const offender = wild.find((w) => d.endsWith(`.${w}`) || d === w)
+    const offender = wild.find((w) => d.endsWith(`.${w}`))
     if (offender) {
       errors.push(`index[${String(i)}]: "${d}" is covered by wildcard "${offender}"`)
     }

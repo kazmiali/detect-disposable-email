@@ -1,7 +1,7 @@
 {
   "name": "detect-disposable-email",
-  "version": "1.0.0",
-  "description": "Fast, typed disposable/temporary email domain detection — 120k+ domains, zero runtime dependencies",
+  "version": "1.1.0",
+  "description": "Fast, typed disposable/temporary email domain detection — 160k+ domains, zero runtime dependencies",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -48,6 +48,7 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist coverage",
     "add-domains": "tsx scripts/add-domains.ts",
+    "sync-sources": "tsx scripts/sync-sources.ts",
     "validate-data": "tsx scripts/validate-data.ts",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",

@@ -49,6 +49,16 @@ describe('isDisposable', () => {
   })
 
   describe('wildcard / subdomain matches', () => {
+    it('matches a multi-label wildcard base itself', () => {
+      // cad.edu.gr is a 3-label wildcard base; bare domain must be disposable
+      // (via exact if dual-listed, or via the wildcard-set self check).
+      expect(isDisposable('cad.edu.gr')).toBe(true)
+      const r = checkDisposable('cad.edu.gr')
+      expect(r.disposable).toBe(true)
+      expect(r.matched).toBe('cad.edu.gr')
+      expect(r.matchType === 'exact' || r.matchType === 'wildcard').toBe(true)
+    })
+
     it('matches a direct subdomain of a wildcard base', () => {
       const base = KNOWN_WILDCARD_BASES[0]!
       expect(isDisposable(`anything.${base}`)).toBe(true)

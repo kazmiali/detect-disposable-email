@@ -75,4 +75,11 @@ describe('validateData — notInWildcard rule', () => {
     const r = validateData(['10mail.org', 'a.com'], ['10mail.org'])
     expect(r.ok).toBe(true)
   })
+
+  it('does NOT flag a multi-label exact that equals a wildcard base', () => {
+    // Bare bases like cad.edu.gr may live in both lists; only proper
+    // subdomains are redundant.
+    const r = validateData(['a.com', 'cad.edu.gr'], ['cad.edu.gr'])
+    expect(r.ok).toBe(true)
+  })
 })

@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- **Data refresh:** exact domains **121,557 → 166,956** (+45,399), merged from the
+  best license-safe public lists (community CC0 list, disposable/disposable daily,
+  tompec, fakefilter, wesbos, castle top-1k, groundcat MX-cleaned). Wildcards stay
+  at 399.
+- **`yarn sync-sources`:** new script to re-fetch and merge those sources (with
+  allowlist for legitimate providers, punycode normalize, integrity checks).
+- **Wildcard base matching:** bare multi-label wildcard bases (e.g. `cad.edu.gr`)
+  now match via the wildcard set, not only their subdomains.
+- Restored **`ubicloud.com`** (was missing vs old upstream).
+
 ## 1.0.0
 
 ### Major Changes

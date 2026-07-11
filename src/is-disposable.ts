@@ -37,6 +37,11 @@ export function checkDisposable(input: string, options?: CheckOptions): Disposab
   }
 
   const wildcards = getWildcardSet()
+  // The domain itself may be a wildcard base (e.g. multi-label bases like
+  // `cad.edu.gr` that are not also present in the exact list).
+  if (wildcards.has(domain)) {
+    return { disposable: true, matched: domain, matchType: 'wildcard' }
+  }
   for (const parent of parentsOf(domain)) {
     if (wildcards.has(parent)) {
       return { disposable: true, matched: parent, matchType: 'wildcard' }

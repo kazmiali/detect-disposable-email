@@ -1,6 +1,6 @@
 # detect-disposable-email
 
-**Fast, typed disposable/temporary email domain detection — 120,000+ domains, zero runtime dependencies.**
+**Fast, typed disposable/temporary email domain detection — 160,000+ domains, zero runtime dependencies.**
 
 [![npm version](https://img.shields.io/npm/v/detect-disposable-email.svg?style=flat-square)](https://www.npmjs.com/package/detect-disposable-email)
 [![npm downloads](https://img.shields.io/npm/dm/detect-disposable-email.svg?style=flat-square)](https://www.npmjs.com/package/detect-disposable-email)
@@ -9,15 +9,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 A modern, maintained successor to [`disposable-email-domains`](https://github.com/ivolo/disposable-email-domains).
-It ships the same comprehensive dataset of disposable email domains, plus a fast,
-typed helper that correctly handles wildcard subdomains, case, and whitespace —
-so you don't have to write the matching logic yourself.
+It ships a **multi-source, regularly refreshable** dataset of disposable email
+domains, plus a fast typed helper that correctly handles wildcard subdomains,
+case, and whitespace — so you don't have to write the matching logic yourself.
 
 ---
 
 ## Highlights
 
-- **121,557 exact-match domains** + **399 wildcard base domains** (sourced from upstream v1.0.62).
+- **166,956 exact-match domains** + **399 wildcard base domains**, merged from the best license-safe public lists (see [Data sources](#data-sources)).
 - **Zero runtime dependencies.** No lodash, no `validator`. Pure TypeScript.
 - **O(1) lookups** via lazily-initialized `Set`s; O(labels) wildcard matching by parent walk (no 400-element scan per call).
 - **Typed helpers** — `isDisposable()`, `isDisposableDomain()`, `checkDisposable()`.
@@ -113,7 +113,7 @@ interface CheckOptions {
 ```ts
 import { disposableDomains, disposableWildcardDomains } from 'detect-disposable-email'
 
-disposableDomains.length         // 121,557 — exact-match domains
+disposableDomains.length         // 166,956 — exact-match domains
 disposableWildcardDomains.length // 399     — wildcard base domains
 ```
 
@@ -158,14 +158,14 @@ Implementation: for `a.b.10mail.org` we walk parents (`b.10mail.org`,
 | Subsequent calls | O(1) exact + O(labels) wildcard ≈ sub-microsecond |
 | 100,000 lookups | ~10–50 ms on modern hardware |
 
-`Set.has()` is used for the 121k-entry exact list. Wildcard matching walks the
+`Set.has()` is used for the ~167k-entry exact list. Wildcard matching walks the
 domain's parent labels (typically ≤ 4) against a 399-entry `Set`.
 
 ---
 
 ## Bundling & package size
 
-- **Tarball:** ~1.4 MB gzipped.
+- **Tarball:** ~1.8 MB packed (grows with the domain list).
 - The data is inlined into `dist/index.js` / `dist/index.cjs` at build time, so
   the package is self-contained (no runtime file reads).
 - `sideEffects: false` is set for tree-shaking.
@@ -189,8 +189,39 @@ This package is a near drop-in replacement:
 | `require('disposable-email-domains/wildcard.json')` | `disposableWildcardDomains` or `detect-disposable-email/wildcard` |
 | (write your own matcher) | `isDisposable()` / `checkDisposable()` |
 
-Bonus: 12 IDN entries in the upstream data (e.g. `gmaıl.net`) have been
-normalized to punycode (`xn--gmal-nza.net`) so they actually match real lookups.
+IDN entries are stored as punycode (e.g. `gmaıl.net` → `xn--gmal-nza.net`) so
+they match real lookups. Unicode input is normalized at runtime via
+`toAsciiHostname()`.
+
+---
+
+## Data sources
+
+The exact-match list is a **union** of redistributable public datasets (CC0 /
+MIT / BSD-3), plus the original ivolo baseline. GPL-licensed mega-lists are
+intentionally excluded so this package can stay MIT.
+
+| Source | License | Role |
+|--------|---------|------|
+| [disposable-email-domains/disposable-email-domains](https://github.com/disposable-email-domains/disposable-email-domains) | CC0 | Community-vetted accuracy |
+| [disposable/disposable](https://github.com/disposable/disposable) (daily publish) | MIT | Daily bulk coverage |
+| [tompec/disposable-email-domains](https://github.com/tompec/disposable-email-domains) | MIT | Maintained ivolo successor |
+| [7c/fakefilter](https://github.com/7c/fakefilter) | BSD-3-Clause | Live provider monitoring |
+| [wesbos/burner-email-providers](https://github.com/wesbos/burner-email-providers) | MIT | Community bulk |
+| [castle/disposable-email-domains](https://github.com/castle/disposable-email-domains) | MIT | Top abuse-signal domains |
+| [groundcat/disposable-email-domain-list](https://github.com/groundcat/disposable-email-domain-list) | MIT | MX-cleaned subset |
+
+Refresh locally with:
+
+```bash
+yarn sync-sources          # fetch + merge + write data/
+yarn sync-sources --dry-run
+yarn validate-data
+yarn test && yarn build
+```
+
+Known free/legitimate providers (Gmail, Outlook, Proton, etc.) are allowlisted
+and never imported even if a source lists them.
 
 ---
 
@@ -204,6 +235,7 @@ normalized to punycode (`xn--gmal-nza.net`) so they actually match real lookups.
 | `yarn lint` / `yarn format` | ESLint (strict) / Prettier. |
 | `yarn typecheck` | `tsc --noEmit`. |
 | `yarn add-domains` | Merge `contributions/*.txt` into the dataset. |
+| `yarn sync-sources` | Fetch & merge the best public disposable-domain lists. |
 | `yarn validate-data` | Standalone data-integrity check. |
 
 See [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md) for the full contribution guide.
@@ -214,8 +246,8 @@ See [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md) for the full contributi
 
 The disposable-domain dataset was originally compiled by **Ilya Volodarsky** in
 [`ivolo/disposable-email-domains`](https://github.com/ivolo/disposable-email-domains)
-(MIT). It is reproduced here as the v1 starting point, with gratitude. All new
-code in this repository is original and MIT-licensed.
+(MIT) and is extended with the public sources listed above. All new code in this
+repository is original and MIT-licensed.
 
 ---
 

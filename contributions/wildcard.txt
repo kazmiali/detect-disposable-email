@@ -1,3 +1,0 @@
-# Paste new wildcard base domains here, one per line.
-# Then run:  yarn add-domains
-# A wildcard matches any subdomain of the entry (e.g. '10mail.org' matches 'a.b.10mail.org').
