@@ -1,0 +1,3 @@
+# Paste new disposable domains here, one per line.
+# Then run:  yarn add-domains
+# Blank lines, leading/trailing whitespace, and lines starting with '#' are ignored.
