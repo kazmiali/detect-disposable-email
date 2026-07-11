@@ -1,0 +1,11 @@
+coverage/
+dist/
+node_modules/
+*.cjs
+*.d.ts
+*.js
+*.d.cts
+*.tsbuildinfo
+pnpm-lock.yaml
+yarn.lock
+package-lock.json

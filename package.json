@@ -1,0 +1,105 @@
+{
+  "name": "detect-disposable-email",
+  "version": "0.0.0",
+  "description": "Fast, typed disposable/temporary email domain detection — 120k+ domains, zero runtime dependencies",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./wildcard": {
+      "import": {
+        "types": "./dist/wildcard.d.ts",
+        "default": "./dist/wildcard.js"
+      },
+      "require": {
+        "types": "./dist/wildcard.d.cts",
+        "default": "./dist/wildcard.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src test scripts --ext .ts",
+    "lint:fix": "eslint src test scripts --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist coverage",
+    "add-domains": "tsx scripts/add-domains.ts",
+    "validate-data": "tsx scripts/validate-data.ts",
+    "release": "changeset publish",
+    "version": "changeset version",
+    "prepublishOnly": "yarn clean && yarn build && yarn test"
+  },
+  "keywords": [
+    "disposable",
+    "email",
+    "domains",
+    "temporary-email",
+    "burner",
+    "trash-mail",
+    "mailinator",
+    "block",
+    "validation",
+    "spam",
+    "typescript",
+    "zero-dependencies"
+  ],
+  "author": {
+    "name": "Muhammad Ali Kazmi",
+    "url": "https://alikazmi.dev"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kazmiali/detect-disposable-email.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kazmiali/detect-disposable-email/issues"
+  },
+  "homepage": "https://github.com/kazmiali/detect-disposable-email#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "packageManager": "yarn@4.12.0",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.12",
+    "@eslint/js": "^9.20.0",
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^4.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.0.0",
+    "prettier": "^3.6.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.30.0",
+    "vitest": "^4.0.0"
+  }
+}

@@ -1,0 +1,20 @@
+# Files excluded from the published npm tarball.
+# The dist/ build output is the only code that ships.
+src/
+test/
+scripts/
+contributions/
+data/
+.changeset/
+.github/
+.vscode/
+docs/
+coverage/
+.plan/
+*.tsbuildinfo
+*.log
+PLAN.md
+implementation-notes.md
+tmp.*
+*.sh
+*.tgz
