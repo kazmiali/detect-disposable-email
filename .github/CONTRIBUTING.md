@@ -87,9 +87,14 @@ versioning and the changelog. To record a change:
 yarn changeset
 ```
 
-Pick `minor` for new domains/features, `patch` for fixes. Merging to `main`
-triggers the Release workflow, which opens a "Version Packages" PR that bumps
-the version, updates `CHANGELOG.md`, and publishes to npm on merge.
+Pick `minor` for new domains/features, `patch` for fixes. Maintainers then
+version and publish manually:
+
+```bash
+yarn changeset:version   # bumps package.json + CHANGELOG.md
+# commit the result, then:
+yarn changeset:publish   # or: yarn npm publish --access public
+```
 
 ## License
 
