@@ -49,8 +49,8 @@
     "clean": "rm -rf dist coverage",
     "add-domains": "tsx scripts/add-domains.ts",
     "validate-data": "tsx scripts/validate-data.ts",
-    "release": "changeset publish",
-    "version": "changeset version",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
     "prepublishOnly": "yarn clean && yarn build && yarn test"
   },
   "keywords": [

@@ -45,8 +45,10 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: yarn release
-          version: yarn version
+          # Use explicit script names — Yarn 4's builtin `yarn version` shadows
+          # an npm script named "version" and fails with "Not enough positional arguments".
+          version: yarn changeset:version
+          publish: yarn changeset:publish
           title: 'chore(release): version packages'
           commit: 'chore(release): version packages'
         env:
